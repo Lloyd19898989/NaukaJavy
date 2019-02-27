@@ -1,0 +1,88 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.lang.Math;
+import java.io.IOException;
+import java.lang.NullPointerException;
+
+public class Developers {
+	
+	static int pobierzCyfre(String linijka, int pozycja) {
+		int cyfra = 0;
+		
+		cyfra = Integer.parseInt(String.valueOf(linijka.charAt(pozycja)));
+		
+		return cyfra;
+	}
+		
+	static int policzPudelko(String linijka) {		
+		int a, b, c = 0;
+		
+		if (linijka == null)
+			return 0;		
+		
+		if (linijka.charAt(1)=='x') {
+			a = pobierzCyfre(linijka, 0);
+			b = pobierzCyfre(linijka, 2);
+			if (linijka.charAt(3)=='x') {
+				if (linijka.length()==6) {
+					c = pobierzCyfre(linijka, 4) * 10 + pobierzCyfre(linijka, 5);
+				}
+				else {
+					c = pobierzCyfre(linijka, 4);					
+				}
+			}
+			else {
+				b = b * 10 + pobierzCyfre(linijka, 3);
+				c = pobierzCyfre(linijka, 5);
+				if (linijka.length()==7) {
+					c = c * 10 + pobierzCyfre(linijka, 6);
+				}
+			}
+		}
+		else {
+			a = pobierzCyfre(linijka, 0) * 10 + pobierzCyfre(linijka, 1);		
+			b = pobierzCyfre(linijka, 3);
+			if (linijka.charAt(4)=='x') {
+				c = pobierzCyfre(linijka, 5);
+				if (linijka.length()==7) {
+					c = c * 10 + pobierzCyfre(linijka, 6);					
+				}
+			}
+			else {
+				b = b * 10 + pobierzCyfre(linijka, 4);
+				c = pobierzCyfre(linijka, 6);
+				if (linijka.length()==8) {
+					c = c * 10 + pobierzCyfre(linijka, 7);
+				}
+			}
+				
+		}
+		return 2 * (a * b + b * c + a * c) + Math.min(a*b,Math.min(b*c,a*c));	
+		}	
+	
+	public static void main(String[] args) throws IOException, NullPointerException {
+	
+		BufferedReader fileReader = null;
+		String linijka = "";
+		int licznik = 0;
+		
+		try {
+		
+			fileReader = new BufferedReader(new FileReader("C:\\Users\\WOK\\Desktop\\Java\\Developers.txt"));
+			
+			while (linijka != null) {
+				linijka = fileReader.readLine();
+				licznik = licznik + policzPudelko(linijka);
+				if (linijka == null)					
+					break;
+			}
+		}	
+		finally {
+			if (fileReader != null) {
+				fileReader.close();
+				System.out.println(licznik);
+			}
+		}
+		
+	}
+}
